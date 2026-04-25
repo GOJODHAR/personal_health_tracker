@@ -1,0 +1,75 @@
+PROJECT SUMMARY — Personal Health Tracker
+==========================================
+
+NAME
+  Personal Health Tracker
+
+TYPE
+  Flutter Mobile Application (Android / iOS / Web / Desktop)
+
+TECH STACK
+  - Framework   : Flutter 3.1+ (Dart)
+  - Backend     : Firebase (Auth + Cloud Firestore)
+  - State Mgmt  : Provider pattern
+  - Charts      : fl_chart
+  - Fonts       : Google Fonts (Poppins)
+  - Notifications: flutter_local_notifications + timezone
+
+PURPOSE
+  A wellness app that lets users log daily health metrics, set fitness goals,
+  track trends over time, and receive daily reminders to stay consistent.
+
+ARCHITECTURE
+  lib/
+  ├── models/          Data classes (UserModel, HealthLog, GoalModel)
+  ├── providers/       State management (AuthProvider, HealthProvider, GoalProvider)
+  ├── services/        Firebase + notification logic (AuthService, FirestoreService, NotificationService)
+  ├── screens/         UI pages (Dashboard, History, Goals, Profile, Login, Signup, Welcome, AddHealthData)
+  ├── widgets/         Reusable components (WeightChart, BmiChart, BmiCard, WaterProgress, HealthStatCard)
+  └── utils/           Constants (colors, spacing) and BmiCalculator
+
+KEY FEATURES
+  - Email/password authentication via Firebase Auth
+  - Log daily health data: weight, water intake, steps, sleep hours, mood, stress, energy
+  - BMI auto-calculated from weight + height stored in profile
+  - Dashboard hero card showing BMI, daily health score (0–100), and streak counter
+  - Consecutive-day streak tracker (🔥 N-day streak badge)
+  - Health Score: average of water/steps/sleep/weight goal completion, color-coded
+  - Goals screen: set target weight, water, steps, and sleep; progress bars show daily completion
+  - Stats / History screen: weight trend chart, BMI trend chart, water intake bar chart
+  - History filter: view entries by This Week / This Month / All Time
+  - Duplicate-entry guard: warns before logging a second entry on the same day
+  - Profile editor: name, age, gender, height, weight
+  - Customizable daily reminder time (time picker in Profile, persisted to Firestore)
+  - Notifications rescheduled automatically when reminder time changes
+  - Seed test data button (7 days of realistic demo data)
+  - Swipe-to-delete on history entries with confirmation dialog
+
+DATA MODEL
+  UserModel     : id, email, name, age, gender, heightCm, weightKg,
+                  notificationHour, notificationMinute
+  HealthLog     : userId, date, weight, bmi, waterIntake, stepsCount,
+                  sleepHours, mood, stressLevel, energyLevel
+  GoalModel     : userId, targetWeight, dailyWaterGoal, stepGoal, sleepGoal
+
+SCREENS
+  WelcomeScreen         — Onboarding landing page
+  LoginScreen           — Email/password sign in
+  SignupScreen          — Registration (name, email, password, age, height)
+  DashboardScreen       — 5-tab main shell (Home, Stats, +FAB, Goals, Profile)
+  AddHealthDataScreen   — Form to log daily health data
+  HistoryScreen         — Charts + filterable entry list
+  GoalsScreen           — View/edit fitness targets with progress indicators
+  ProfileScreen         — Edit profile details + notification time picker
+
+NOTABLE DECISIONS
+  - Firestore queries use composite index (userId + date) with client-side sort fallback
+  - Provider pattern with ChangeNotifier; no repository layer (direct service calls)
+  - Soft pastel color palette with teal primary (#4ECDC4)
+  - IndexedStack used in DashboardScreen to preserve tab scroll state
+  - All TextEditingControllers properly disposed to prevent memory leaks
+
+DEPENDENCIES (key)
+  firebase_core, firebase_auth, cloud_firestore
+  provider, fl_chart, flutter_local_notifications
+  timezone, google_fonts, intl

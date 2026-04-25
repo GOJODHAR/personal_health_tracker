@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter analyze *)",
+      "Bash(/Users/daivikkhot/development/flutter/bin/flutter analyze *)",
+      "Read(//Users/daivikkhot/fvm/**)",
+      "Read(//Users/daivikkhot/**)"
+    ]
+  }
+}
